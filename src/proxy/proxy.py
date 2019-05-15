@@ -19,7 +19,8 @@
 
 from threading import Thread
 
-import socket
+import pyproxy
+from pyproxy.socket import ProxyProtocolSocket
 
 from . import logger
 from .select_model import createSelection
@@ -79,7 +80,7 @@ class Proxy(Thread):
                     conn, _ = self.downSock.accept()
                     connFd = conn.fileno()
 
-                    upSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    upSock = ProxyProtocolSocket(pyproxy.const.PROTOCOL_V1, src_addr=(127.0.0.9, 12345))
                     upSock.connect((self.upHost, self.upPort))
                     upSockFd = upSock.fileno()
 
